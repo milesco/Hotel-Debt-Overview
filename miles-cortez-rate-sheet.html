@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hotel Rate Sheet | Matthews Hotel Capital Markets</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1e3d;
+    --navy-mid: #122040;
+    --blue: #1a5cb8;
+    --blue-light: #2e74d4;
+    --gold: #c8a96e;
+    --white: #ffffff;
+    --off-white: #f8f7f4;
+    --gray-100: #f0efe9;
+    --gray-200: #e2e0d8;
+    --gray-400: #9e9b8e;
+    --gray-600: #5c5a52;
+    --text: #1a1a18;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--off-white); color: var(--text); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 60px;
+    background: rgba(13,30,61,0.97); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .nav-logo { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: 3px; color: var(--white); text-decoration: none; }
+  .nav-logo sup { font-size: 8px; letter-spacing: 0; }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+
+  /* CONTAINER */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+  #rate-sheet .container { max-width: 100%; padding: 0 1rem; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; background: var(--navy);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 2rem 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(26,92,184,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 12px; justify-content: center;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+  .hero h1 {
+    font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 700; color: var(--white); line-height: 1.05;
+    letter-spacing: -0.02em; max-width: 700px; margin: 0 auto 1.5rem;
+  }
+  .hero h1 em { color: var(--gold); font-style: italic; }
+  .hero-sub {
+    font-size: 17px; line-height: 1.7; color: rgba(255,255,255,0.5);
+    max-width: 480px; margin: 0 auto 2.5rem; font-weight: 300;
+  }
+  .hero-meta {
+    display: flex; gap: 1.5rem; align-items: center; justify-content: center;
+    margin-bottom: 3rem; flex-wrap: wrap;
+  }
+  .hero-meta-item { font-size: 12px; color: rgba(255,255,255,0.35); }
+  .hero-meta-item span { color: rgba(255,255,255,0.75); font-weight: 500; }
+  .hero-meta-sep { color: rgba(255,255,255,0.15); }
+  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--blue); color: var(--white);
+    padding: 14px 28px; border-radius: 4px; font-size: 14px; font-weight: 500;
+    text-decoration: none; transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--blue-light); transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex; align-items: center;
+    background: transparent; color: rgba(255,255,255,0.65);
+    padding: 14px 28px; border-radius: 4px; font-size: 14px; font-weight: 500;
+    text-decoration: none; border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+  /* SECTIONS */
+  section { padding: 6rem 0; }
+  #rate-sheet { padding: 4rem 0; }
+  .section-inner { text-align: center; }
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 0.6rem; display: block;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0.75rem;
+  }
+  .section-desc { font-size: 15px; line-height: 1.7; max-width: 480px; margin: 0 auto 3rem; font-weight: 300; }
+
+  /* INDEX RATES */
+  #index-rates { background: var(--navy-mid); }
+  #index-rates .section-label { color: var(--gold); }
+  #index-rates .section-title { color: var(--white); }
+  #index-rates .section-desc { color: rgba(255,255,255,0.45); }
+  .rates-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr);
+    gap: 1px; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06); border-radius: 6px;
+    overflow: hidden; margin-bottom: 1.25rem;
+  }
+  .rate-card { background: rgba(255,255,255,0.03); padding: 1.75rem 1rem; text-align: center; transition: background 0.2s; }
+  .rate-card:hover { background: rgba(255,255,255,0.07); }
+  .rate-name { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 0.75rem; }
+  .rate-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--gold); letter-spacing: -0.02em; }
+  .rates-source { font-size: 11px; color: rgba(255,255,255,0.2); font-family: 'DM Mono', monospace; text-align: center; }
+
+  /* RATE SHEET */
+  #rate-sheet { background: var(--off-white); }
+  #rate-sheet .section-label { color: var(--blue); }
+  #rate-sheet .section-title { color: var(--text); }
+  #rate-sheet .section-desc { color: var(--gray-600); }
+  .table-wrap { overflow-x: visible; border-radius: 8px; box-shadow: 0 2px 24px rgba(0,0,0,0.08); }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; width: 100%; background: var(--white); }
+  thead tr { background: var(--navy); }
+  thead th { color: var(--white); font-weight: 500; font-size: 10px; letter-spacing: 0.2px; padding: 9px 4px; text-align: center; border-right: 1px solid rgba(255,255,255,0.08); white-space: normal; line-height: 1.3; }
+  thead th:first-child { text-align: left; min-width: 110px; }
+  thead th:last-child { border-right: none; }
+  tbody tr { border-bottom: 1px solid var(--gray-200); transition: background 0.1s; }
+  tbody tr:nth-child(even) { background: var(--gray-100); }
+  tbody tr:hover { background: #e8f0fb; }
+  tbody td { padding: 7px 4px; text-align: center; vertical-align: middle; color: var(--text); font-size: 10.5px; }
+  tbody td:first-child { text-align: left; font-weight: 600; font-size: 10px; color: var(--gray-600); }
+  .rate-hl { color: var(--blue); font-weight: 600; }
+  .rate-hi { color: #b52a2a; font-weight: 600; }
+  .yes-v { color: #2d7a3a; font-weight: 600; font-size: 11px; }
+  .no-v { color: var(--gray-400); font-size: 11px; }
+  .fn { margin-top: 1.5rem; text-align: left; }
+  .fn p { font-size: 11px; color: var(--gray-400); line-height: 1.7; font-style: italic; }
+
+  /* CONTACT */
+  #contact { background: var(--navy); }
+  #contact .section-label { color: var(--gold); }
+  #contact .section-title { color: var(--white); }
+  #contact .section-desc { color: rgba(255,255,255,0.45); margin-bottom: 2.5rem; }
+  .presenter-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 2.5rem; max-width: 420px; margin: 0 auto;
+    text-align: center;
+  }
+  .presenter-initials {
+    width: 72px; height: 72px; border-radius: 50%; background: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 700; color: var(--white);
+    margin: 0 auto 1.5rem; letter-spacing: 1px;
+  }
+  .presenter-name { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--white); margin-bottom: 0.3rem; }
+  .presenter-title { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 2rem; }
+  .presenter-contacts { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2rem; }
+  .presenter-contact {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-size: 14px; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.2s;
+  }
+  .presenter-contact:hover { color: var(--white); }
+  .ci { width: 14px; opacity: 0.45; flex-shrink: 0; }
+  .contact-btns { display: flex; flex-direction: column; gap: 0.75rem; }
+  .btn-cp {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--blue); color: var(--white); padding: 13px 20px;
+    border-radius: 4px; font-size: 13px; font-weight: 500; text-decoration: none; transition: background 0.2s;
+  }
+  .btn-cp:hover { background: var(--blue-light); }
+  .btn-cs {
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; color: rgba(255,255,255,0.55); padding: 13px 20px;
+    border-radius: 4px; font-size: 13px; font-weight: 500; text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.15); transition: all 0.2s;
+  }
+  .btn-cs:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
+
+  /* DISCLAIMER */
+  .disc { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); padding: 2.5rem 0; }
+  .disc p { font-size: 11px; color: rgba(255,255,255,0.22); line-height: 1.8; text-align: center; }
+  .disc b { color: rgba(255,255,255,0.38); font-weight: 500; }
+
+  /* FOOTER */
+  footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.04); padding: 1.5rem 0; }
+  .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+  .footer-logo { font-size: 13px; font-weight: 600; letter-spacing: 2px; color: rgba(255,255,255,0.35); }
+  .footer-copy { font-size: 11px; color: rgba(255,255,255,0.18); }
+
+  /* FADE IN */
+  .fade { opacity: 0; transform: translateY(20px); animation: fi 0.7s ease forwards; }
+  .fade:nth-child(1){animation-delay:.05s} .fade:nth-child(2){animation-delay:.15s}
+  .fade:nth-child(3){animation-delay:.25s} .fade:nth-child(4){animation-delay:.35s}
+  .fade:nth-child(5){animation-delay:.45s}
+  @keyframes fi { to { opacity:1; transform:none; } }
+
+  @media(max-width:768px){
+    .nav-links{display:none}
+    .rates-grid{grid-template-columns:repeat(3,1fr)}
+    section{padding:4rem 0}
+    .hero{padding:100px 1.5rem 60px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">MATTHEWS<sup>™</sup></a>
+  <div class="nav-links">
+    <a href="#index-rates">Index Rates</a>
+    <a href="#rate-sheet">Rate Sheet</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow fade">Hotel Capital Markets · Nationwide</div>
+  <h1 class="fade">The <em>hotel</em><br>rate sheet.</h1>
+  <p class="hero-sub fade">The live rate sheet for hotel debt financing. Indicative terms across every major hospitality debt program, from limited-service flags to luxury resorts, all 50 states.</p>
+  <div class="hero-meta fade">
+    <div class="hero-meta-item">As of <span id="hero-date"></span></div>
+    <span class="hero-meta-sep">·</span>
+    <div class="hero-meta-item">Presented by <span>Miles Cortez</span></div>
+  </div>
+  <div class="hero-ctas fade">
+    <a href="#rate-sheet" class="btn-primary">View rate sheet</a>
+    <a href="#contact" class="btn-primary">Discuss financing ›</a>
+  </div>
+</section>
+
+<!-- INDEX RATES -->
+<section id="index-rates">
+  <div class="container">
+    <div class="section-inner">
+      <span class="section-label">Live rates</span>
+      <h2 class="section-title">Right now.</h2>
+      <p class="section-desc">Index rates that anchor every hotel financing program on the sheet below. Pulled fresh from the Federal Reserve.</p>
+    </div>
+    <div class="rates-grid">
+      <div class="rate-card"><div class="rate-name">SOFR</div><div class="rate-value">3.65%</div></div>
+      <div class="rate-card"><div class="rate-name">3YR UST</div><div class="rate-value">3.80%</div></div>
+      <div class="rate-card"><div class="rate-name">5YR UST</div><div class="rate-value">3.92%</div></div>
+      <div class="rate-card"><div class="rate-name">7YR UST</div><div class="rate-value">4.10%</div></div>
+      <div class="rate-card"><div class="rate-name">10YR UST</div><div class="rate-value">4.31%</div></div>
+      <div class="rate-card"><div class="rate-name">Prime</div><div class="rate-value">6.75%</div></div>
+    </div>
+    <p class="rates-source">Source: Federal Reserve (FRED) · As of <span id="source-date"></span></p>
+  </div>
+</section>
+
+<!-- RATE SHEET -->
+<section id="rate-sheet">
+  <div class="container">
+    <div class="section-inner">
+      <span class="section-label">Every program</span>
+      <h2 class="section-title">Compare every program.</h2>
+      <p class="section-desc">Indicative terms across seven capital sources, nationwide. Find the program that fits your hotel deal.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>INDICATIVE TERMS</th>
+            <th>Bank / CU<br><span style="font-weight:300;opacity:0.55;font-size:10px">Conventional</span></th>
+            <th>Life Co.</th>
+            <th>CMBS</th>
+            <th>Bridge</th>
+            <th>Mezz / Pref*</th>
+            <th>SBA 504/7(a)**</th>
+            <th>USDA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Max LTV / LTC</td><td>70%</td><td>65%</td><td>68%</td><td>80%</td><td>85%</td><td>85%</td><td>80%</td></tr>
+          <tr><td>Min DSCR</td><td>1.25x</td><td>1.50x</td><td>1.35x</td><td>&lt;1.00x</td><td>&lt;1.00x</td><td>1.20x</td><td>1.25x</td></tr>
+          <tr><td>Occupancy Requirement</td><td>65%+ T12</td><td>70%+ T12</td><td>65%+ T12</td><td>Flexible</td><td>Flexible</td><td>N/A</td><td>60%+ T12</td></tr>
+          <tr><td>Brand / Flag Required</td><td>Preferred</td><td>Required</td><td>Preferred</td><td>Preferred</td><td>Negotiable</td><td>Not Required</td><td>Not Required</td></tr>
+          <tr><td>Loan Term</td><td>3–10 Yrs</td><td>3, 5, 7, 10 Yrs</td><td>5, 10 Yrs</td><td>3+1+1 Yrs</td><td>Coterm. w/ Sr.</td><td>10–25 Years</td><td>30 Yrs</td></tr>
+          <tr><td>Amortization</td><td>20–25 Yrs</td><td>25–30 Yrs</td><td>30 Yrs</td><td>30 Yrs</td><td>None</td><td>25 Years</td><td>Self Amort.</td></tr>
+          <tr><td>Interest-Only</td><td>1–2 Yrs</td><td>Partial-Term</td><td>Full-Term</td><td>3 Yrs</td><td>Full Term</td><td>None</td><td>3 Yrs</td></tr>
+          <tr><td>Index</td><td>Prime / UST</td><td>3, 5, 7, 10YR UST</td><td>5, 10YR UST</td><td>SOFR</td><td>Fixed Rate</td><td>Prime / 10YR UST</td><td>Prime</td></tr>
+          <tr><td>Interest Rate Range</td><td class="rate-hl">5.75–7.75%</td><td class="rate-hl">5.81–6.85%</td><td class="rate-hl">5.76–7.11%</td><td class="rate-hl">6.65–11.15%</td><td class="rate-hi">12.00–18.00%</td><td class="rate-hl">6.65–8.15%</td><td class="rate-hl">8.25–8.75%</td></tr>
+          <tr><td>Prepayment Penalty</td><td>Negotiable</td><td>Declining / YM</td><td>Defeasance</td><td>Negotiable</td><td>Negotiable</td><td>None</td><td>Declining</td></tr>
+          <tr><td>Recourse</td><td>Negotiable</td><td>Non / Partial</td><td>Non-Recourse</td><td>Non-Recourse</td><td>Non-Recourse</td><td>Full Recourse</td><td>Non if &lt;20% Own.</td></tr>
+          <tr><td>PIP / Renovation OK</td><td class="yes-v">Yes</td><td>Case-by-Case</td><td class="yes-v">Yes</td><td class="yes-v">Yes</td><td class="yes-v">Yes</td><td class="yes-v">Yes</td><td class="yes-v">Yes</td></tr>
+          <tr><td>Ground-Up Construction</td><td class="yes-v">Yes</td><td class="yes-v">Yes</td><td class="no-v">No</td><td class="yes-v">Yes</td><td class="yes-v">Yes</td><td class="yes-v">Yes</td><td class="yes-v">Yes</td></tr>
+          <tr><td>Origination Fee</td><td>0.25–1.00%</td><td>None</td><td>None</td><td>1.00–2.00%</td><td>1.00%</td><td>1.00–3.00%</td><td>2.80%</td></tr>
+          <tr><td>Exit Fee</td><td>None</td><td>None</td><td>None</td><td>Negotiable</td><td>1.00%</td><td>None</td><td>None</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="fn">
+      <p>* Mezzanine / Preferred Equity coterminous with senior; subject to intercreditor agreement and brand approval.</p>
+      <p>** SBA 504 max $5.5M for hotels; 7(a) up to $5M. Operating business requirement applies.</p>
+      <p>*** Most conventional programs require 65%+ trailing 12-month occupancy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-inner">
+      <span class="section-label">Ready when you are</span>
+      <h2 class="section-title">Let's talk hotel financing.</h2>
+      <p class="section-desc">We are creative in finding debt structures that meet our clients varying needs. Whether you need debt to acquire, refinance, PIP, reposition, or new construction, we will execute. We work nationwide, across brands, across segments.</p>
+    </div>
+    <div class="presenter-card">
+      <div class="presenter-initials">MC</div>
+      <div class="presenter-name">Miles Cortez</div>
+      <div class="presenter-title">Capital Markets · Matthews Real Estate</div>
+      <div class="presenter-contacts">
+        <a href="tel:3036532963" class="presenter-contact">
+          <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.22 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          303.653.2963
+        </a>
+        <a href="mailto:miles.cortez@matthews.com" class="presenter-contact">
+          <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          miles.cortez@matthews.com
+        </a>
+      </div>
+      <div class="contact-btns">
+        <a href="mailto:miles.cortez@matthews.com" class="btn-cp">Email Miles ›</a>
+        <a href="tel:3036532963" class="btn-cs">Call 303.653.2963 ›</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disc">
+  <div class="container">
+    <p><b>Disclaimer.</b> The information contained in this rate sheet is for informational purposes only and represents general market indications as of the date shown. Rates, spreads, and terms are indicative, vary by transaction, and are subject to change without notice based on market conditions, sponsorship, property-level performance, and lender underwriting. This material does not constitute an offer, commitment, or solicitation to lend. All loans are subject to credit approval and customary closing conditions. Matthews Real Estate Investment Services™.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">MATTHEWS<sup style="font-size:8px">™</sup> · Hotel Capital Markets</div>
+      <div class="footer-copy">© 2026 Matthews Real Estate Investment Services. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const d = new Date();
+const fmt = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+document.getElementById('hero-date').textContent = fmt;
+document.getElementById('source-date').textContent = fmt;
+</script>
+</body>
+</html>
